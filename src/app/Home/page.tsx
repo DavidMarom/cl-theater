@@ -6,17 +6,31 @@ import http from '../../services/http';
 
 const Home = () => {
     const [movies, setMovies] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [filteredInfo, setFilteredInfo] = useState({});
+
+
 
     useEffect(() => {
+        const lsMovies = localStorage.getItem('movies');
+        if (lsMovies) { setMovies(JSON.parse(lsMovies)) }
+        setLoading(true);
         http.get('movies').then((res) => {
             setMovies(res.data);
+            localStorage.setItem('movies', JSON.stringify(res.data));
+            setLoading(false);
         });
     }, []);
+
+    const handleChange = (pagination, filters, sorter) => {
+        setFilteredInfo(filters);
+    };
 
     return (
         <>
             <Table
                 columns={columns}
+                filteredInfo={filteredInfo}
                 dataSource={movies}
                 rowKey="_id"
 
@@ -31,6 +45,8 @@ const Home = () => {
                 }}
 
             />
+            {loading && <div>Loading&#8230;</div>}
+
         </>
     )
 }
