@@ -23,9 +23,67 @@ body {
       rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
 
+h1{
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+}
+
+h2{
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+}
+
+p{
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+
+}
+
 .page-container{
   min-height: calc(100vh - 4rem);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  padding: 1rem;
+}
+
+.row{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.v-space{
+  height: 2rem;
+}
+
+.w-space{
+  width: 2rem;
+}
+
+.movie-details{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  margin: 1rem 0;
+  background-color: aliceblue;
+  padding: 1rem;
+}
+
+.grid-10-10{
+  display: grid;
+  grid-template-rows: repeat(10, 30px);
+  grid-template-columns: repeat(10, 1fr);
+  gap: 5px;
+  
+  background-color: aliceblue;
 }
