@@ -22,15 +22,11 @@ const Home = () => {
         });
     }, []);
 
-    const handleChange = (pagination, filters, sorter) => {
-        setFilteredInfo(filters);
-    };
 
     return (
         <>
             <Table
                 columns={columns}
-                filteredInfo={filteredInfo}
                 dataSource={movies}
                 rowKey="_id"
 
