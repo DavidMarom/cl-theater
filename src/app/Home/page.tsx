@@ -2,13 +2,11 @@
 import React, { useEffect, useState } from "react";
 import { Button, Popconfirm, DatePicker } from "antd";
 import { Table } from 'antd'
-// import { columns } from './columns';
 import http from '../../services/http';
 
 const Home = () => {
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [filteredInfo, setFilteredInfo] = useState({});
 
     useEffect(() => {
         const lsMovies = localStorage.getItem('movies');
@@ -22,9 +20,9 @@ const Home = () => {
     }, []);
 
 
-const formatDate = (date: string) => {
-    const d = new Date(date);
-    return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
+const epochToString = (epoch: number) => {
+    const date = new Date(epoch);
+    return date.toLocaleDateString();
 }
 
 const columns = [
@@ -46,7 +44,7 @@ const columns = [
         dataIndex: 'date',
         key: 'date',
         sorter: (a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-        render: (date: string) => formatDate(date)
+        render: (date: number) => epochToString(date)
     },
     {
         title: 'Description',
