@@ -1,11 +1,11 @@
+import React from "react";
 import { Button, Popconfirm, DatePicker } from "antd";
 
-const formatDate = (date) => {
+
+const formatDate = (date: string) => {
     const d = new Date(date);
     return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
 }
-
-
 
 export const columns = [
     {
@@ -25,8 +25,8 @@ export const columns = [
         title: 'Date',
         dataIndex: 'date',
         key: 'date',
-        sorter: (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-        render: (date) => formatDate(date)
+        sorter: (a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+        render: (date: string) => formatDate(date)
     },
     {
         title: 'Description',
@@ -37,21 +37,11 @@ export const columns = [
         title: 'Duration',
         dataIndex: 'duration',
         key: 'duration',
-        render: (duration) => `${duration} min`
+        render: (duration: number) => `${duration} min`
     },
     {
         title: 'Action',
         key: 'action',
-        render: (el) => (
-            <span>
-                <Button style={{ backgroundColor: '#2196F3', color: 'white' }} type="primary" onClick={() => {
-                    console.log(el)
-                }}
-                >Purchase</Button>
-                {/* <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.id)}>
-                    <Button type="danger" style={{ marginLeft: "10px" }}>Delete</Button>
-                </Popconfirm> */}
-            </span>
-        ),
-    },
+        
+    }
 ];

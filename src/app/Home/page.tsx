@@ -1,15 +1,14 @@
 "use client"
 import React, { useEffect, useState } from "react";
+import { Button, Popconfirm, DatePicker } from "antd";
 import { Table } from 'antd'
-import { columns } from './columns.js';
+// import { columns } from './columns';
 import http from '../../services/http';
 
 const Home = () => {
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
     const [filteredInfo, setFilteredInfo] = useState({});
-
-
 
     useEffect(() => {
         const lsMovies = localStorage.getItem('movies');
@@ -22,6 +21,56 @@ const Home = () => {
         });
     }, []);
 
+
+const formatDate = (date: string) => {
+    const d = new Date(date);
+    return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
+}
+
+const columns = [
+    {
+        title: '',
+        dataIndex: '_id',
+        key: '_id',
+        width: "1px",
+        render: () => '',
+    },
+    {
+        title: 'Title',
+        width: "300px",
+        dataIndex: 'title',
+        key: 'title',
+    },
+    {
+        title: 'Date',
+        dataIndex: 'date',
+        key: 'date',
+        sorter: (a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+        render: (date: string) => formatDate(date)
+    },
+    {
+        title: 'Description',
+        dataIndex: 'description',
+        key: 'description',
+    },
+    {
+        title: 'Duration',
+        dataIndex: 'duration',
+        key: 'duration',
+        render: (duration: number) => `${duration} min`
+    },
+    {
+        title: 'Action',
+        key: 'action',
+        render: (text: any, record: any) => (
+            <Button style={{ backgroundColor: '#2196F3', color: 'white' }} type="primary" onClick={() => {
+                console.log(record._id)
+            }}
+            >Purchase</Button>
+        ),
+        
+    }
+];
 
     return (
         <>
