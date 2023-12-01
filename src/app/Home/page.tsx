@@ -92,7 +92,6 @@ const Home = () => {
             key: 'action',
             render: (text: any, record: MoovieType) => (
                 <Button style={{ backgroundColor: '#2196F3', color: 'white' }} type="primary" onClick={() => {
-                    console.log(record._id)
                     router.push(`/${record._id}`)
                 }}
                 >Purchase</Button>
