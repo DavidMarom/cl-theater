@@ -15,16 +15,22 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
 
 
     useEffect(() => {
-        const aaa = dataArray.map((el, index) => {
+        const markedArr = dataArray.map((el, index) => {
             if (seats[index + 1] === '1') {
                 return '1'
             }
             return '0'
         })
-        setPopulatedArray(aaa);
+        setPopulatedArray(markedArr);
     }, []);
 
+    const handlePurch = (idx:number) => {
+        console.log(idx+1);
+        const newSeats = {...seats, [idx+1]: '1'};
+        const newMovie = {...movie, seats: newSeats};
+        
 
+    }
 
     return (
         <div>
@@ -41,7 +47,7 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
             <div className='grid-10-10'>
 
                 {
-                    populatedArray.map((el, index) => <div key={index}>{el === '1' ? '' : 'Free'}</div>)
+                    populatedArray.map((el, index) => <div key={index}>{el === '1' ? <div className="occupied" /> : <div onClick={()=>{handlePurch(index)}} className="free" />}</div>)
                 }
 
             </div>
