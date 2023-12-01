@@ -1,5 +1,6 @@
 "use client"
 import React, { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation';
 import { Button, Popconfirm, DatePicker } from "antd";
 import { Table } from 'antd'
 import { TableFiltersType, MoovieType } from "@/types";
@@ -12,6 +13,7 @@ const Home = () => {
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
     const [range, setRange] = useState([0, 0]);
+    const router = useRouter();
 
     const handleChange = (pagination: any, filters: TableFiltersType) => { setRange(filters.date) };
 
@@ -91,6 +93,7 @@ const Home = () => {
             render: (text: any, record: MoovieType) => (
                 <Button style={{ backgroundColor: '#2196F3', color: 'white' }} type="primary" onClick={() => {
                     console.log(record._id)
+                    router.push(`/${record._id}`)
                 }}
                 >Purchase</Button>
             ),
