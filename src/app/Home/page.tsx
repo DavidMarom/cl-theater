@@ -2,22 +2,18 @@
 import React, { useEffect, useState } from "react";
 import { Button, Popconfirm, DatePicker } from "antd";
 import { Table } from 'antd'
+import { TableFiltersType, MoovieType } from "@/types";
+import { epochToString, timeStampToUnixTime } from "@/utils";
 import http from '../../services/http';
 
 const { RangePicker } = DatePicker;
-
-const timeStamptoUnixTime = (timestamp: number) => {
-    return new Date(timestamp).getTime();
-}
 
 const Home = () => {
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
     const [range, setRange] = useState([0, 0]);
 
-    const handleChange = (pagination: any, filters: any, sorter: any) => {
-        setRange(filters.date);
-    };
+    const handleChange = (pagination: any, filters: TableFiltersType) => { setRange(filters.date) };
 
     useEffect(() => {
         const lsMovies = localStorage.getItem('movies');
@@ -30,11 +26,6 @@ const Home = () => {
         });
     }, []);
 
-
-    const epochToString = (epoch: number) => {
-        const date = new Date(epoch);
-        return date.toLocaleDateString();
-    }
 
     const columns = [
         {
@@ -58,7 +49,7 @@ const Home = () => {
             render: (date: number) => epochToString(date),
 
             filterDropdown: (props: any) => {
-                const { setSelectedKeys, selectedKeys, confirm, clearFilters } = props;
+                const { setSelectedKeys, selectedKeys, confirm } = props;
                 return (
                     <div style={{ padding: 8 }}>
                         <RangePicker
@@ -68,7 +59,6 @@ const Home = () => {
                                 confirm();
                             }}
                             onOk={confirm}
-                        // onClear={clearFilters}
                         />
                     </div>
                 );
@@ -79,7 +69,8 @@ const Home = () => {
                 </span>
             ),
             onFilter: (value: any, record: any) => {
-                return record.date >= timeStamptoUnixTime(range[0]) && record.date <= timeStamptoUnixTime(range[1])
+
+                return record.date >= timeStampToUnixTime(range[0]) && record.date <= timeStampToUnixTime(range[1])
             }
 
         },
@@ -97,13 +88,12 @@ const Home = () => {
         {
             title: 'Action',
             key: 'action',
-            render: (text: any, record: any) => (
+            render: (text: any, record: MoovieType) => (
                 <Button style={{ backgroundColor: '#2196F3', color: 'white' }} type="primary" onClick={() => {
                     console.log(record._id)
                 }}
                 >Purchase</Button>
             ),
-
         }
     ];
 
@@ -113,10 +103,7 @@ const Home = () => {
                 columns={columns}
                 dataSource={movies}
                 rowKey="_id"
-
                 onChange={handleChange}
-
-
                 pagination={{
                     showSizeChanger: true,
                     showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
@@ -126,10 +113,8 @@ const Home = () => {
                     total: movies.length,
                     position: ['bottomCenter']
                 }}
-
             />
             {loading && <div>Loading&#8230;</div>}
-
         </>
     )
 }
