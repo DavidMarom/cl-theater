@@ -2,33 +2,46 @@
 import { useRouter } from 'next/navigation';
 import { epochToString } from "@/utils";
 import { useEffect, useState } from 'react';
+import http from '../../services/http';
 
 const MoviePage = ({ params }: { params: { id: string } }) => {
 
     const movies = localStorage.getItem('movies');
     const movie = movies ? JSON.parse(movies).find((movie: any) => movie._id === params.id) : null;
-
     const seats = movie ? movie.seats : null;
     const dataArray = Array.from({ length: 100 });
-
     const [populatedArray, setPopulatedArray] = useState(dataArray);
 
 
     useEffect(() => {
         const markedArr = dataArray.map((el, index) => {
-            if (seats[index + 1] === '1') {
-                return '1'
-            }
+            if (seats[index + 1] === '1') { return '1' }
             return '0'
         })
         setPopulatedArray(markedArr);
     }, []);
 
-    const handlePurch = (idx:number) => {
-        console.log(idx+1);
-        const newSeats = {...seats, [idx+1]: '1'};
-        const newMovie = {...movie, seats: newSeats};
-        
+
+    const handlePurch = (idx: number) => {
+        const newSeats = { ...seats, [idx + 1]: '1' };
+
+        if (movies) {
+            const newMovies = JSON.parse(movies).map((el: any) => {
+                if (el._id === params.id) { return { ...el, seats: newSeats } }
+                return el;
+            })
+
+            localStorage.setItem('movies', JSON.stringify(newMovies));
+            setPopulatedArray(populatedArray.map((el, index) => {
+                if (index === idx) { return '1' }
+                return el;
+            }));
+        }
+
+        // update DB
+        http.put(`movies`, { _id: params.id, seats: newSeats }).then((res) => {
+            console.log(res);
+        });
 
     }
 
@@ -47,7 +60,7 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
             <div className='grid-10-10'>
 
                 {
-                    populatedArray.map((el, index) => <div key={index}>{el === '1' ? <div className="occupied" /> : <div onClick={()=>{handlePurch(index)}} className="free" />}</div>)
+                    populatedArray.map((el, index) => <div key={index}>{el === '1' ? <div className="occupied" /> : <div onClick={() => { handlePurch(index) }} className="free" />}</div>)
                 }
 
             </div>
