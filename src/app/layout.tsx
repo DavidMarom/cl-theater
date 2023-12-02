@@ -10,7 +10,7 @@ export default function RootLayout({ children }: {
 }) {
 
   useEffect(() => {
-    document.title = "Code:Lovers - Theater";
+    document.title = "Code:Lovers - David Marom";
     const lsMovies = localStorage.getItem('movies');
     if (!lsMovies) {
       localStorage.setItem('movies', JSON.stringify([]));
