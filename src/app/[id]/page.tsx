@@ -25,14 +25,11 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
     const handlePurch = (idx: number) => {
         const newSeats = { ...seats, [idx + 1]: '1' };
         http.put(`movies`, { _id: params.id, seats: newSeats, requestedSeat: idx + 1 }).then((res) => {
-            console.log(res);
             if (res.data.message === 'Seat already taken') {
-                alert('Seat already taken');
+                alert('Sorry, the seat was just taken. Try agian.');
                 let newPopulatedArray = [...populatedArray];
                 newPopulatedArray[idx] = '1';
                 setPopulatedArray(newPopulatedArray);
-
-
             }
             else {
                 if (movies) {
