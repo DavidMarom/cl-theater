@@ -63,8 +63,8 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
                 {
                     populatedArray.map((el, index) =>
                         <div key={index}>{el === '1' ?
-                            <div className="occupied">{index}</div> :
-                            <div onClick={() => { handlePurch(index) }} className="free">{index}</div>
+                            <div className="occupied">{index + 1}</div> :
+                            <div onClick={() => { handlePurch(index) }} className="free">{index + 1}</div>
                         }
                         </div>)
                 }
