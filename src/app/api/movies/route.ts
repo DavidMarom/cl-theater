@@ -1,4 +1,4 @@
-import { connectDatabase, getAllDocuments, insertDocument, updateDocument } from "../../../services/mongo";
+import { connectDatabase, getAllDocuments, updateDocument } from "../../../services/mongo";
 
 export async function GET() {
     const client = await connectDatabase();
@@ -9,15 +9,15 @@ export async function GET() {
     });
 }
 
-export async function POST(request: Request) {
-    const { title, date, seats, description, duration } = await request.json();
-    const client = await connectDatabase();
-    const result = await insertDocument(client, 'movies', { title, date, seats, description, duration });
-    client.close();
-    return new Response(JSON.stringify(result), {
-        headers: { 'Content-Type': 'application/json' },
-    });
-}
+// export async function POST(request: Request) {
+//     const { title, date, seats, description, duration } = await request.json();
+//     const client = await connectDatabase();
+//     const result = await insertDocument(client, 'movies', { title, date, seats, description, duration });
+//     client.close();
+//     return new Response(JSON.stringify(result), {
+//         headers: { 'Content-Type': 'application/json' },
+//     });
+// }
 
 // Update a movie
 // Expecting body:

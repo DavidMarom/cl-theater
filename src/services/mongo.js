@@ -6,11 +6,11 @@ export async function connectDatabase() {
     return await MongoClient.connect(dbConnection);
 }
 
-export async function insertDocument(client, collection, document) {
-    const db = client.db('db');
-    const result = await db.collection(collection).insertOne(document);
-    return result;
-}
+// export async function insertDocument(client, collection, document) {
+//     const db = client.db('db');
+//     const result = await db.collection(collection).insertOne(document);
+//     return result;
+// }
 
 export async function getAllDocuments(client, collection) {
     const db = client.db('db');

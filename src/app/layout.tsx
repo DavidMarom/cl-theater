@@ -1,20 +1,22 @@
 "use client"
-
-import type { Metadata } from 'next'
+import React, { useEffect, useState } from "react";
 import { Inter } from 'next/font/google'
 import { Header } from '@/components'
 import './globals.css'
-
 const inter = Inter({ subsets: ['latin'] })
-
-// export const metadata: Metadata = {
-//   title: 'Theater',
-//   description: 'Theater management system',
-// }
 
 export default function RootLayout({ children }: {
   children: React.ReactNode
 }) {
+
+  useEffect(() => {
+    document.title = "Codelovers - Theater";
+    const lsMovies = localStorage.getItem('movies');
+    if (!lsMovies) {
+      localStorage.setItem('movies', JSON.stringify([]));
+    }
+  }, []);
+
   return (
     <html lang="en">
       <body className={inter.className}>

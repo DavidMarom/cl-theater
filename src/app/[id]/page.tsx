@@ -38,7 +38,6 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
             }));
         }
 
-        // update DB
         http.put(`movies`, { _id: params.id, seats: newSeats }).then((res) => {
             console.log(res);
         });
@@ -57,14 +56,20 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
                 <p><b>Date: </b>{epochToString(movie.date)}</p>
             </div>
 
+            <div className="v-space" />
+            {/* <h2>Seats:</h2> */}
+            <p>Reserve a seat:</p>
             <div className='grid-10-10'>
-
                 {
-                    populatedArray.map((el, index) => <div key={index}>{el === '1' ? <div className="occupied" /> : <div onClick={() => { handlePurch(index) }} className="free" />}</div>)
+                    populatedArray.map((el, index) =>
+                        <div key={index}>{el === '1' ?
+                            <div className="occupied">{index}</div> :
+                            <div onClick={() => { handlePurch(index) }} className="free">{index}</div>
+                        }
+                        </div>)
                 }
 
             </div>
-
         </div>
     );
 };
