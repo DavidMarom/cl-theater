@@ -44,3 +44,17 @@ export async function deleteDocument(client, collection, id) {
     }
     return result;
 }
+
+export async function updateDocument(client, collection, id, update) {
+    const db = client.db('db');
+    try {
+        const objectId = new ObjectId(id);
+        const filter = { _id: objectId };
+
+        const result = await db.collection(collection).updateOne(filter, update);
+        return result;
+    } catch (error) {
+        console.log(error)
+    }
+    return result;
+}

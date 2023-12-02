@@ -1,4 +1,4 @@
-import { connectDatabase, getAllDocuments, insertDocument } from "../../../services/mongo";
+import { connectDatabase, getAllDocuments, insertDocument, updateDocument } from "../../../services/mongo";
 
 export async function GET() {
     const client = await connectDatabase();
@@ -17,4 +17,27 @@ export async function POST(request: Request) {
     return new Response(JSON.stringify(result), {
         headers: { 'Content-Type': 'application/json' },
     });
+}
+
+// Update a movie
+// Expecting body:
+// {
+//     _id: string,
+//     seats: {
+//         row: number,
+//         }
+//     }
+
+export async function PUT(request: Request) {
+    const body = await request.json();
+    console.log('============');
+    console.log(body);
+    const client = await connectDatabase();
+    const documents = await updateDocument(client, 'movies', { _id: body._id }, body);
+    client.close();
+    return new Response(JSON.stringify(documents), {
+        headers: { 'Content-Type': 'application/json' },
+    });
+    
+
 }
