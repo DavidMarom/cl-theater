@@ -14,7 +14,6 @@ const Home = () => {
     const [loading, setLoading] = useState(false);
     const [range, setRange] = useState([0, 0]);
     const router = useRouter();
-
     const handleChange = (pagination: any, filters: TableFiltersType) => { setRange(filters.date) };
 
     useEffect(() => {
@@ -27,7 +26,6 @@ const Home = () => {
             setLoading(false);
         });
     }, []);
-
 
     const columns = [
         {

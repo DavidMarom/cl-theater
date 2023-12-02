@@ -24,24 +24,31 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
 
     const handlePurch = (idx: number) => {
         const newSeats = { ...seats, [idx + 1]: '1' };
-
-        if (movies) {
-            const newMovies = JSON.parse(movies).map((el: any) => {
-                if (el._id === params.id) { return { ...el, seats: newSeats } }
-                return el;
-            })
-
-            localStorage.setItem('movies', JSON.stringify(newMovies));
-            setPopulatedArray(populatedArray.map((el, index) => {
-                if (index === idx) { return '1' }
-                return el;
-            }));
-        }
-
-        http.put(`movies`, { _id: params.id, seats: newSeats }).then((res) => {
+        http.put(`movies`, { _id: params.id, seats: newSeats, requestedSeat: idx + 1 }).then((res) => {
             console.log(res);
-        });
+            if (res.data.message === 'Seat already taken') {
+                alert('Seat already taken');
+                let newPopulatedArray = [...populatedArray];
+                newPopulatedArray[idx] = '1';
+                setPopulatedArray(newPopulatedArray);
 
+
+            }
+            else {
+                if (movies) {
+                    const newMovies = JSON.parse(movies).map((el: any) => {
+                        if (el._id === params.id) { return { ...el, seats: newSeats } }
+                        return el;
+                    })
+
+                    localStorage.setItem('movies', JSON.stringify(newMovies));
+                    setPopulatedArray(populatedArray.map((el, index) => {
+                        if (index === idx) { return '1' }
+                        return el;
+                    }));
+                }
+            }
+        });
     }
 
     return (

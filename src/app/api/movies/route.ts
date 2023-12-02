@@ -1,4 +1,5 @@
-import { connectDatabase, getAllDocuments, updateDocument } from "../../../services/mongo";
+import { ObjectId } from "mongodb";
+import { connectDatabase, getAllDocuments, updateDocument, getDocumentsByFilter } from "../../../services/mongo";
 
 export async function GET() {
     const client = await connectDatabase();
@@ -9,29 +10,24 @@ export async function GET() {
     });
 }
 
-// export async function POST(request: Request) {
-//     const { title, date, seats, description, duration } = await request.json();
-//     const client = await connectDatabase();
-//     const result = await insertDocument(client, 'movies', { title, date, seats, description, duration });
-//     client.close();
-//     return new Response(JSON.stringify(result), {
-//         headers: { 'Content-Type': 'application/json' },
-//     });
-// }
-
-// Update a movie
-// Expecting body:
-// {
-//     _id: string,
-//     seats: {
-//         row: number,
-//         }
-//     }
-
 export async function PUT(request: Request) {
     const body = await request.json();
     const newBody = { seats: body.seats }
     const client = await connectDatabase();
+    const requestedSeat = body.requestedSeat;
+
+    // check if the seat is available
+    const movie = await getDocumentsByFilter(client, 'movies', { _id: new ObjectId(body._id) });
+    const isAlreadyTaken = movie[0].seats.hasOwnProperty(requestedSeat);
+
+    if (isAlreadyTaken) {
+        client.close();
+        return new Response(JSON.stringify({ message: 'Seat already taken' }), {
+            headers: { 'Content-Type': 'application/json' },
+        });
+    }
+
+    // if not taken, update the document
     const documents = await updateDocument(client, 'movies', body._id, { $set: newBody });
     client.close();
     return new Response(JSON.stringify(documents), {
