@@ -1,4 +1,3 @@
-import { bool } from "prop-types";
 import { connectDatabase, getDocumentsByFilter } from "../../../../services/mongo";
 import { MovieGetType } from "../../apiTypes";
 

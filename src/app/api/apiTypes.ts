@@ -5,7 +5,7 @@ const MoviesGetSchema = z.object({
         _id: z.string(),
         title: z.string(),
         date: z.string(),
-        seats: z.array(z.number()),
+        seats: z.object({}),
         description: z.string(),
         duration: z.number(),
     })

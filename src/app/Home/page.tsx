@@ -51,19 +51,23 @@ const Home = () => {
             render: (date: number) => epochToString(date),
 
             filterDropdown: (props: any) => {
-                const { setSelectedKeys, selectedKeys, confirm } = props;
-                return (
-                    <div style={{ padding: 8 }}>
-                        <RangePicker
-                            value={selectedKeys}
-                            onChange={(dates: any) => {
-                                setSelectedKeys(dates);
-                                confirm();
-                            }}
-                            onOk={confirm}
-                        />
-                    </div>
-                );
+                try {
+                    const { setSelectedKeys, selectedKeys, confirm } = props;
+                    return (
+                        <div style={{ padding: 8 }}>
+                            <RangePicker
+                                value={selectedKeys}
+                                onChange={(dates: any) => {
+                                    setSelectedKeys(dates);
+                                    confirm();
+                                }}
+                                onOk={confirm}
+                            />
+                        </div>
+                    );
+                } catch (e) {
+                    console.log(e);
+                }
             },
             filterIcon: (filtered: any) => (
                 <span style={{ color: filtered ? '#1890ff' : undefined }}>
@@ -71,7 +75,7 @@ const Home = () => {
                 </span>
             ),
             onFilter: (value: any, record: any) => {
-
+                if (!range) return true;
                 return record.date >= timeStampToUnixTime(range[0]) && record.date <= timeStampToUnixTime(range[1])
             }
 
