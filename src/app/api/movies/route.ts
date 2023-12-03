@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { connectDatabase, getAllDocuments, updateDocument, getDocumentsByFilter } from "../../../services/mongo";
+import { connectDatabase, getAllDocuments, updateDocument, getDocumentsByFilter, deleteDocument } from "../../../services/mongo";
 
 export async function GET() {
     const client = await connectDatabase();
@@ -49,7 +49,7 @@ export async function PUT(request: Request) {
 export async function DELETE(request: Request) {
     const body = await request.json();
     const client = await connectDatabase();
-    const documents = await updateDocument(client, 'movies', body._id, { $set: body });
+    const documents = await deleteDocument(client, 'movies', body._id);
     client.close();
     return new Response(JSON.stringify(documents), {
         headers: { 'Content-Type': 'application/json' },

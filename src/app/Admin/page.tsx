@@ -27,8 +27,8 @@ const Admin = () => {
     }, []);
 
     const handleConfirm = (id: string) => {
-        http.delete(`movies/${id}`)
-            .then(() => {
+        http.delete(`movies`, { data: { _id: id } })
+            .then((res) => {
                 const newMovies = movies.filter((el: MoovieType) => el._id !== id);
                 setMovies(newMovies);
                 localStorage.setItem('movies', JSON.stringify(newMovies));
