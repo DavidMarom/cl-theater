@@ -19,7 +19,7 @@ const moovieSchema = z.object({
     _id: z.string(),
     title: z.string(),
     date: z.number(),
-    seats: z.array(z.string()),
+    seats: z.object({}),
     description: z.string(),
     duration: z.number(),
 });

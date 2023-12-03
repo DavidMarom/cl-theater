@@ -18,6 +18,20 @@ export async function getDocumentsByFilter(client, collection, filter) {
     return documents;
 }
 
+export async function deleteDocument(client, collection, id) {
+    const db = client.db('db');
+    try {
+        const objectId = new ObjectId(id);
+        const filter = { _id: objectId };
+
+        const result = await db.collection(collection).deleteOne(filter);
+        return result;
+    } catch (error) {
+        console.log(error)
+    }
+    return result;
+}
+
 export async function updateDocument(client, collection, id, update) {
     const db = client.db('db');
     try {

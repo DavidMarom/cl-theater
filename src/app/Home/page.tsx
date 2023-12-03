@@ -1,8 +1,7 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
-import { Button, Popconfirm, DatePicker } from "antd";
-import { Table } from 'antd'
+import { Button, Table, DatePicker } from "antd";
 import { TableFiltersType, MoovieType } from "@/types";
 import { epochToString, timeStampToUnixTime } from "@/utils";
 import http from '../../services/http';

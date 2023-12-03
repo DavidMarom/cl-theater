@@ -62,7 +62,6 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
             </div>
 
             <div className="v-space" />
-            {/* <h2>Seats:</h2> */}
             <p>Reserve a seat:</p>
             <div className='grid-10-10'>
                 {

@@ -35,3 +35,23 @@ export async function PUT(request: Request) {
         headers: { 'Content-Type': 'application/json' },
     });
 }
+
+// export async function POST(request: Request) {
+//     const body = await request.json();
+//     const client = await connectDatabase();
+//     const documents = await updateDocument(client, 'movies', body._id, { $set: body });
+//     client.close();
+//     return new Response(JSON.stringify(documents), {
+//         headers: { 'Content-Type': 'application/json' },
+//     });
+// }
+
+export async function DELETE(request: Request) {
+    const body = await request.json();
+    const client = await connectDatabase();
+    const documents = await updateDocument(client, 'movies', body._id, { $set: body });
+    client.close();
+    return new Response(JSON.stringify(documents), {
+        headers: { 'Content-Type': 'application/json' },
+    });
+}

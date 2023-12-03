@@ -69,6 +69,10 @@ p {
   width: 2rem;
 }
 
+.w-space-sm {
+  width: .5rem;
+}
+
 .movie-details {
   display: flex;
   flex-direction: row;
@@ -111,11 +115,15 @@ p {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  background-color: #e74c3c;
+  background-color: #f3218a;
   width: 100%;
   height: 100%;
   border-radius: 3px;
   font-size: 0.8rem;
   color: rgb(247, 211, 211);
   padding-top:5px;
+}
+
+.ant-btn-primary {
+  background-color: #f3218a;
 }

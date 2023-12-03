@@ -1,8 +1,7 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
-import { Button, Popconfirm, DatePicker } from "antd";
-import { Table } from 'antd'
+import { Button, Popconfirm, DatePicker, Table } from "antd";
 import { TableFiltersType, MoovieType } from "@/types";
 import { epochToString, timeStampToUnixTime } from "@/utils";
 import http from '../../services/http';
@@ -26,6 +25,21 @@ const Admin = () => {
             setLoading(false);
         });
     }, []);
+
+    const handleConfirm = (id: string) => {
+        http.delete(`movies/${id}`)
+            .then(() => {
+                const newMovies = movies.filter((el: MoovieType) => el._id !== id);
+                setMovies(newMovies);
+                localStorage.setItem('movies', JSON.stringify(newMovies));
+            })
+            .catch((err) => {
+                console.log(err);
+            }
+        )
+    }
+
+    const handleCancel = () => { console.log('Action cancelled') };
 
     const columns = [
         {
@@ -92,20 +106,33 @@ const Admin = () => {
         {
             title: 'Action',
             key: 'action',
-            render: (text: any, record: MoovieType) => (
+            render: (text: any, record: MoovieType) => (<div className="row">
                 <Button style={{ backgroundColor: '#2196F3', color: 'white' }} type="primary" onClick={() => {
-                    router.push(`/Admin/${record._id}`)
+                    router.push(`/ Admin / ${record._id}`)
                 }}
                 >Edit</Button>
+
+                <div className="w-space-sm" />
+
+                <Popconfirm
+                    title="Are you sure you want to delete?"
+                    onConfirm={() => { handleConfirm(record._id) }}
+                    onCancel={handleCancel}
+                    okText="Yes"
+                    cancelText="No"
+                >
+                    <Button style={{ backgroundColor: '#f3218a', color: 'white' }} type="primary">Delete</Button>
+                </Popconfirm>
+
+
+            </div>
             ),
         }
     ];
 
-
     return (
         <div>
             <h2>Admin</h2>
-
             <Table
                 columns={columns}
                 dataSource={movies}
@@ -113,7 +140,7 @@ const Admin = () => {
                 onChange={handleChange}
                 pagination={{
                     showSizeChanger: true,
-                    showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+                    showTotal: (total, range) => `${range[0]} - ${range[1]} of ${total} items`,
                     pageSizeOptions: ['5', '10', '20', '50'],
                     defaultPageSize: 5,
                     defaultCurrent: 1,
@@ -122,7 +149,6 @@ const Admin = () => {
                 }}
             />
             {loading && <div>Loading&#8230;</div>}
-
         </div>
     );
 }
