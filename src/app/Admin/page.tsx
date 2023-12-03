@@ -9,7 +9,7 @@ import http from '../../services/http';
 
 const { RangePicker } = DatePicker;
 
-const Home = () => {
+const Admin = () => {
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
     const [range, setRange] = useState([0, 0]);
@@ -94,16 +94,18 @@ const Home = () => {
             key: 'action',
             render: (text: any, record: MoovieType) => (
                 <Button style={{ backgroundColor: '#2196F3', color: 'white' }} type="primary" onClick={() => {
-                    router.push(`/${record._id}`)
+                    router.push(`/Admin/${record._id}`)
                 }}
-                >Purchase</Button>
+                >Edit</Button>
             ),
         }
     ];
 
+
     return (
-        <>
-            <h2>Now Showing:</h2>
+        <div>
+            <h2>Admin</h2>
+
             <Table
                 columns={columns}
                 dataSource={movies}
@@ -120,7 +122,9 @@ const Home = () => {
                 }}
             />
             {loading && <div>Loading&#8230;</div>}
-        </>
-    )
+
+        </div>
+    );
 }
-export default Home;
+
+export default Admin;
