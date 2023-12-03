@@ -23,6 +23,7 @@ export async function PUT(request: Request) {
     if (isAlreadyTaken) {
         client.close();
         return new Response(JSON.stringify({ message: 'Seat already taken' }), {
+            status: 409,
             headers: { 'Content-Type': 'application/json' },
         });
     }
