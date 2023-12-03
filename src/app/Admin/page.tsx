@@ -108,7 +108,7 @@ const Admin = () => {
             key: 'action',
             render: (text: any, record: MoovieType) => (<div className="row">
                 <Button style={{ backgroundColor: '#2196F3', color: 'white' }} type="primary" onClick={() => {
-                    router.push(`/ Admin / ${record._id}`)
+                    router.push(`/Admin/${record._id}`)
                 }}
                 >Edit</Button>
 
