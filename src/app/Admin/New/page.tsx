@@ -1,5 +1,4 @@
 "use client"
-import { useRouter } from 'next/navigation';
 import { epochToString, timeStampToUnixTime } from "@/utils";
 import { FormEventHandler, useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form"
@@ -13,26 +12,17 @@ interface FormData {
 }
 
 const MoviePage = ({ params }: { params: { id: string } }) => {
-    const movies = localStorage.getItem('movies');
-    const movie = movies ? JSON.parse(movies).find((movie: any) => movie._id === params.id) : null;
-    const seats = movie ? movie.seats : null;
-    const dataArray = Array.from({ length: 100 });
-    const [populatedArray, setPopulatedArray] = useState(dataArray);
-    const router = useRouter();
+    // const movies = localStorage.getItem('movies');
+    // const movie = movies ? JSON.parse(movies).find((movie: any) => movie._id === params.id) : null;
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [duration, setDuration] = useState(0);
     const [date, setDate] = useState(new Date().getTime());
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
 
-
-    useEffect(() => {
-        console.log('new');
-    }, []);
-
     const onSubmit: SubmitHandler<FormData> = (data) => {
         const newMovie = {
-            ...movie,
+            // ...movie,
             title: data.title,
             description: data.description,
             duration: data.duration,
@@ -43,7 +33,6 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
             .then((res) => {
                 console.log(res);
                 alert('Movie added!');
-
             })
             .catch((err) => { console.log(err) }
             )
@@ -95,14 +84,9 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
                         onChange={(e) => { setDate(new Date(e.target.value).getTime()) }}
                     />
                 </div>
-
-
-
                 <br />
                 <button type="submit">Submit</button>
             </form>
-
-
         </div>
     );
 };
