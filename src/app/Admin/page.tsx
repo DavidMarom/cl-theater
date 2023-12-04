@@ -28,11 +28,13 @@ const Admin = () => {
     }, []);
 
     const handleConfirm = (id: string) => {
+        setLoading(true);
         http.delete(`movies`, { data: { _id: id } })
-            .then((res) => {
+            .then(() => {
                 const newMovies = movies.filter((el: MoovieType) => el._id !== id);
                 setMovies(newMovies);
                 localStorage.setItem('movies', JSON.stringify(newMovies));
+                setLoading(false);
             })
             .catch((err) => {
                 console.log(err);

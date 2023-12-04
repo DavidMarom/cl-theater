@@ -15,26 +15,16 @@ interface FormData {
 const MoviePage = ({ params }: { params: { id: string } }) => {
     const movies = localStorage.getItem('movies');
     const movie = movies ? JSON.parse(movies).find((movie: any) => movie._id === params.id) : null;
-    const seats = movie ? movie.seats : null;
-    const dataArray = Array.from({ length: 100 });
-    const [populatedArray, setPopulatedArray] = useState(dataArray);
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
     const [title, setTitle] = useState(movie.title);
     const [description, setDescription] = useState(movie.description);
     const [duration, setDuration] = useState(movie.duration);
     const [date, setDate] = useState(movie.date);
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
 
-
-    useEffect(() => {
-        const markedArr = dataArray.map((el, index) => {
-            if (seats[index + 1] === '1') { return '1' }
-            return '0'
-        })
-        setPopulatedArray(markedArr);
-    }, []);
-
     const onSubmit: SubmitHandler<FormData> = (data) => {
+        setIsLoading(true);
         const newMovie = {
             ...movie,
             title: data.title,
@@ -44,10 +34,9 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
         };
 
         http.put(`movie`, newMovie)
-            .then((res) => {
-                console.log(res);
+            .then(() => {
                 alert('Movie updated!');
-
+                router.push('/Admin');
             })
             .catch((err) => { console.log(err) }
             )
@@ -99,14 +88,9 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
                         onChange={(e) => { setDate(new Date(e.target.value).getTime()) }}
                     />
                 </div>
-
-
-
                 <br />
-                <button type="submit">Submit</button>
+                {isLoading ? <p>Loading...</p> : <button type="submit">Submit</button>}
             </form>
-
-
         </div>
     );
 };

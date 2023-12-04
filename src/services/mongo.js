@@ -1,4 +1,3 @@
-// 'use client';
 import { MongoClient, ObjectId } from "mongodb";
 
 export async function connectDatabase() {
@@ -23,7 +22,6 @@ export async function deleteDocument(client, collection, id) {
     try {
         const objectId = new ObjectId(id);
         const filter = { _id: objectId };
-
         const result = await db.collection(collection).deleteOne(filter);
         return result;
     } catch (error) {

@@ -1,6 +1,7 @@
 "use client"
-import { epochToString, timeStampToUnixTime } from "@/utils";
-import { FormEventHandler, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { timeStampToUnixTime } from "@/utils";
+import { useState } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form"
 import http from '../../../services/http';
 
@@ -12,17 +13,17 @@ interface FormData {
 }
 
 const MoviePage = ({ params }: { params: { id: string } }) => {
-    // const movies = localStorage.getItem('movies');
-    // const movie = movies ? JSON.parse(movies).find((movie: any) => movie._id === params.id) : null;
+    const [isLoading, setIsLoading] = useState(false);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [duration, setDuration] = useState(0);
     const [date, setDate] = useState(new Date().getTime());
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+    const router = useRouter();
 
     const onSubmit: SubmitHandler<FormData> = (data) => {
+        setIsLoading(true);
         const newMovie = {
-            // ...movie,
             title: data.title,
             description: data.description,
             duration: data.duration,
@@ -30,9 +31,9 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
         };
 
         http.post(`movie`, newMovie)
-            .then((res) => {
-                console.log(res);
+            .then(() => {
                 alert('Movie added!');
+                router.push('/Admin');
             })
             .catch((err) => { console.log(err) }
             )
@@ -53,6 +54,7 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
                     />
                     {errors.title ? <p className='error-text'>{errors.title.message}</p> : <p className='error-text-hide'>-</p>}
                 </div>
+
                 <div>
                     <label htmlFor="description">Description: </label>
                     <input
@@ -63,6 +65,7 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
                     />
                     {errors.description ? <p className='error-text'>{errors.description.message}</p> : <p className='error-text-hide'>-</p>}
                 </div>
+
                 <div>
 
                     <label htmlFor="duration">Duration: </label>
@@ -85,7 +88,12 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
                     />
                 </div>
                 <br />
-                <button type="submit">Submit</button>
+                {
+                    isLoading
+                        ? <p>Adding the movie...</p>
+                        : <button type="submit">Submit</button>
+                }
+                
             </form>
         </div>
     );
