@@ -14,6 +14,7 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
 
 
     useEffect(() => {
+        if(!seats) { return }
         const markedArr = dataArray.map((el, index) => {
             if (seats[index + 1] === '1') { return '1' }
             return '0'
@@ -49,6 +50,7 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
             });
     }
 
+    if(!movie) { return <div>Please refresh</div> }
     return (
         <div>
             <h2>{movie.title}</h2>

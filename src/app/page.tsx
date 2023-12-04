@@ -15,8 +15,6 @@ export default function Home() {
       <div className="row">
         <Link href="/Home">Go to the movie list</Link>
       </div>
-
-
     </>
   )
 }

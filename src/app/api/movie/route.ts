@@ -1,11 +1,14 @@
-import { ObjectId } from "mongodb";
-import { connectDatabase, updateDocument, getDocumentsByFilter } from "../../../services/mongo";
+import { connectDatabase, updateDocument } from "../../../services/mongo";
 
 export async function PUT(request: Request) {
     const body = await request.json();
-    const newBody = { title: body.title }
+    const newBody = { 
+        title: body.title,
+        description: body.description,
+        duration: body.duration,
+        date: body.date,
+    }
     const client = await connectDatabase();
-
     const documents = await updateDocument(client, 'movies', body._id, { $set: newBody });
     client.close();
     return new Response(JSON.stringify(documents), {

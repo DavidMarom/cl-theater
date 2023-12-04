@@ -123,8 +123,6 @@ const Admin = () => {
                 >
                     <Button style={{ backgroundColor: '#f3218a', color: 'white' }} type="primary">Delete</Button>
                 </Popconfirm>
-
-
             </div>
             ),
         }
