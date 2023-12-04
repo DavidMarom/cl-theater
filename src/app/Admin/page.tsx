@@ -134,7 +134,7 @@ const Admin = () => {
     return (
         <div>
             <h2>Admin</h2>
-            <Link href="/Admin/New">Add a new movie</Link>
+            <Link href="/Admin/New">+ Add a new movie</Link>
 
             <Table
                 columns={columns}

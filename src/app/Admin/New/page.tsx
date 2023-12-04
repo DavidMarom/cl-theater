@@ -10,6 +10,7 @@ interface FormData {
     description: string;
     duration: number;
     date: number;
+    seats: { [key: string]: boolean };
 }
 
 const MoviePage = ({ params }: { params: { id: string } }) => {
@@ -28,6 +29,7 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
             description: data.description,
             duration: data.duration,
             date: timeStampToUnixTime(data.date),
+            seats: {}
         };
 
         http.post(`movie`, newMovie)

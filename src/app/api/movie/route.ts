@@ -23,6 +23,7 @@ export async function POST(request: Request) {
         description: body.description,
         duration: body.duration,
         date: body.date,
+        seats: body.seats,
     }
     const client = await connectDatabase();
     const documents = await insertDocument(client, 'movies', newBody);

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import http from '../../services/http';
 
 const MoviePage = ({ params }: { params: { id: string } }) => {
+    const [isSaving, setIsSaving] = useState(false);
     const movies = localStorage.getItem('movies');
     const movie = movies ? JSON.parse(movies).find((movie: any) => movie._id === params.id) : null;
     const seats = movie ? movie.seats : null;
@@ -20,6 +21,8 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
     }, []);
 
     const handlePurch = (idx: number) => {
+        if (isSaving) { return }
+        setIsSaving(true);
         const newSeats = { ...seats, [idx + 1]: '1' };
         http.put(`movies`, { _id: params.id, seats: newSeats, requestedSeat: idx + 1 })
             .then(() => {
@@ -35,6 +38,7 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
                         return el;
                     }));
                 }
+                setIsSaving(false);
             })
             .catch((err) => {
                 if (err.response.data.message === 'Seat already taken') {
@@ -70,8 +74,8 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
                         }
                         </div>)
                 }
-
             </div>
+            {isSaving && <div className="saving">Saving...</div>}
         </div>
     );
 };

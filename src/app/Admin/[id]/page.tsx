@@ -1,7 +1,7 @@
 "use client"
 import { useRouter } from 'next/navigation';
-import { epochToString, timeStampToUnixTime } from "@/utils";
-import { FormEventHandler, useEffect, useState } from 'react';
+import { timeStampToUnixTime } from "@/utils";
+import { useState } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form"
 import http from '../../../services/http';
 
@@ -10,6 +10,7 @@ interface FormData {
     description: string;
     duration: number;
     date: number;
+    seats: { [key: string]: boolean };
 }
 
 const MoviePage = ({ params }: { params: { id: string } }) => {
@@ -32,6 +33,8 @@ const MoviePage = ({ params }: { params: { id: string } }) => {
             duration: data.duration,
             date: timeStampToUnixTime(data.date),
         };
+
+        console.log(newMovie);
 
         http.put(`movie`, newMovie)
             .then(() => {
