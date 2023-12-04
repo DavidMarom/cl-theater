@@ -5,6 +5,7 @@ import { Button, Popconfirm, DatePicker, Table } from "antd";
 import { TableFiltersType, MoovieType } from "@/types";
 import { epochToString, timeStampToUnixTime } from "@/utils";
 import http from '../../services/http';
+import Link from "next/link";
 
 const { RangePicker } = DatePicker;
 
@@ -131,6 +132,8 @@ const Admin = () => {
     return (
         <div>
             <h2>Admin</h2>
+            <Link href="/Admin/New">Add a new movie</Link>
+
             <Table
                 columns={columns}
                 dataSource={movies}
